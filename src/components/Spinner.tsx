@@ -104,7 +104,7 @@ export class Spinner extends React.Component<SpinnerProps> {
 
   wedge (name:string, degrees: number, index: number) {
       let offset = degrees * index;
-      let nameRotate = degrees/-2.25;
+      let nameRotate = degrees/-2;
       return (
         <div style={ {...this.styles.base, ...this.wedgeStyle(offset)} }>
           <div style={
@@ -142,7 +142,12 @@ export class Spinner extends React.Component<SpinnerProps> {
         {/** Name Display **/}
         <div style={this.styles.nameContainer}>
           <div style={this.styles.selectedName}>
-            {!state.wasSpun && !state.rotating ? "SPIN TO START" : this.getselectedParticipant().name}
+            {!state.wasSpun && !state.rotating
+               ? (<span style={this.styles.goldText}>SPIN TO START</span>)
+               : (<div style={this.styles.selectedContainer}>
+                    <span style={this.styles.goldText}>LANDED ON: </span>{ this.getselectedParticipant().name}
+                  </div>)
+            }
           </div>
         </div>
         {/** Wheel **/}
@@ -211,14 +216,17 @@ export class Spinner extends React.Component<SpinnerProps> {
       color: 'white',
       fontSize: 30,
       width: '100%',
-      paddingLeft: 40,
+      paddingLeft: 25,
+      position: 'relative',
+      top: -35
     },
     singleName: {
       fontSize: 40,
       color: 'white',
       position: 'absolute',
       transform: "translateY(50%)",
-      top: (this.size.height / 2) - 50
+      top: (this.size.height / 2) - 60,
+      left: 20
     },
     btn: {
       width: 100,
@@ -248,13 +256,21 @@ export class Spinner extends React.Component<SpinnerProps> {
     selectedName: {
       fontSize: 36,
       fontWeight: 'bold',
-      color: COLORS.gold,
+      color: 'white',
       padding: 4,
     },
     nameContainer: {
       position: 'relative',
       top: -1 * ((this.size.height / 2) + 0),
       color: 'white'
+    },
+    selectedContainer: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      width: this.size.width
+    },
+    goldText: {
+      color: COLORS.gold
     }
   }
 
