@@ -142,7 +142,7 @@ export class Spinner extends React.Component<SpinnerProps> {
         {/** Name Display **/}
         <div style={this.styles.nameContainer}>
           <div style={this.styles.selectedName}>
-            {!state.wasSpun && !state.rotating ? "Spin to start" : this.getselectedParticipant().name}
+            {!state.wasSpun && !state.rotating ? "SPIN TO START" : this.getselectedParticipant().name}
           </div>
         </div>
         {/** Wheel **/}
@@ -222,7 +222,7 @@ export class Spinner extends React.Component<SpinnerProps> {
     },
     btn: {
       width: 100,
-      height: 45,
+      height: 40,
       paddingTop:15,
       textAlign: 'center',
       position: 'relative',
@@ -233,10 +233,9 @@ export class Spinner extends React.Component<SpinnerProps> {
       color: 'white',
       alignItems: 'center',
       fontFamily: 'helvetica',
-      fontWeight: 'bold',
-      fontSize: 30,
+      fontWeight: 400,
+      fontSize: 24,
       cursor: 'pointer',
-      borderRadius: 10,
     },
     iconContainer: {
       flexDirection: 'row'
@@ -254,7 +253,7 @@ export class Spinner extends React.Component<SpinnerProps> {
     },
     nameContainer: {
       position: 'relative',
-      top: -1 * ((this.size.height / 2) + 40),
+      top: -1 * ((this.size.height / 2) + 0),
       color: 'white'
     }
   }

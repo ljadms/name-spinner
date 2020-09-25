@@ -158,13 +158,6 @@ const styles: IStyleSheet = {
     flexDirection: 'row',
     padding: 6
   },
-  addBtn: {
-    fontSize: 20,
-    color: COLORS.blue,
-    marginTop: 10,
-    cursor: 'pointer',
-    height: 40
-  },
   nameInput: {
     padding: 8,
     borderColor: 'gray',

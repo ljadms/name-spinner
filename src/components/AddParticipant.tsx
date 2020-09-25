@@ -32,7 +32,7 @@ export class AddParticipant extends React.Component<AddParticipantProps> {
     let disabled = this.state.disabled;
     return(
     <div>
-      <div style={disabled ? styles.disabled : styles.addBtn} onClick={() => disabled ? false : addFunc()} > +ADD </div>
+      <div style={disabled ? {...styles.addBtn, ...styles.disabled} : styles.addBtn} onClick={() => disabled ? false : addFunc()} > +ADD </div>
     </div>
   )//render(props.participants);
 }
@@ -44,12 +44,11 @@ const styles = {
     fontSize: 20,
     color: COLORS.blue,
     marginTop: 10,
+    marginLeft: 8,
     cursor: 'pointer'
   },
   disabled:{
-    fontSize: 20,
     color: COLORS.lightGray,
-    marginTop: 10,
     cursor: 'not-allowed'
   }
 }

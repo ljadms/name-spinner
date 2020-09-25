@@ -70,7 +70,7 @@ export class ParticipantList extends React.Component<ParticipantListProps> {
     } else {
       return(
       <div>
-      <div style={styles.noParts}>Participants</div>
+      <div style={styles.noParts}>PARTICIPANTS</div>
         {participants.map((item, index) => this.renderItem(item, index))}
       </div>
     )//render(props.participants);

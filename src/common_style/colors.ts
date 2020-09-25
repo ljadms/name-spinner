@@ -1,5 +1,5 @@
 export const COLORS = {
-  blue:'rgb(34, 98, 177)',
+  blue:'rgb(81, 192, 232)',
   lightBlue: 'rgb(130, 202, 208)',
   green: 'rgb(189, 222, 148)',
   purple: 'rgb(100, 93, 163)',
