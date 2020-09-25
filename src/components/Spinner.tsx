@@ -30,6 +30,7 @@ export class Spinner extends React.Component<SpinnerProps> {
          wasSpun: false,
          toggleMarked: props.toggleMarked
        }
+
        this.spin = this.spin.bind(this)
   }
 
@@ -165,8 +166,8 @@ export class Spinner extends React.Component<SpinnerProps> {
   }
 
   size = {
-    height: 800,
-    width: 800
+    height: 600,
+    width: 600
   }
 
   styles: IStyleSheet = {
@@ -175,7 +176,7 @@ export class Spinner extends React.Component<SpinnerProps> {
       flex: 3,
       justifyContent: 'center',
       alignItems: 'center',
-      flexFlow: 'column'
+      flexFlow: 'column',
     },
     doneContainer: {
       flexFlow: 'column'
@@ -186,8 +187,8 @@ export class Spinner extends React.Component<SpinnerProps> {
       position: 'absolute'
     },
     pointer: {
-      fontSize: 80,
-      transform: `translateX(${-1 * (this.size.width / 2) - 50}px)`
+      fontSize: 75,
+      transform: `translateX(${-1 * (this.size.width / 2) - 30}px)`
     },
     circle: {
       borderRadius: 5000,
