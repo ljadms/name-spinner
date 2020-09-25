@@ -1,0 +1,12 @@
+{
+  "name": "spinner",
+  "displayName": "spinner",
+  "expo": {
+    "name": "spinner",
+    "slug": "spinner",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
