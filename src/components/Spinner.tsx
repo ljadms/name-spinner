@@ -20,6 +20,8 @@ interface SpinnerState {
 
 export class Spinner extends React.Component<SpinnerProps> {
   state: SpinnerState;
+  spinSound: HTMLAudioElement;
+  spinMusic: HTMLAudioElement;
 
   constructor(props: SpinnerProps) {
        super(props);
@@ -31,7 +33,9 @@ export class Spinner extends React.Component<SpinnerProps> {
          toggleMarked: props.toggleMarked
        }
 
-       this.spin = this.spin.bind(this)
+       this.spin = this.spin.bind(this);
+       this.spinSound = new Audio(require("./content/spin.mp3"));
+       this.spinMusic = new Audio(require("./content/spinMusic.mp3"));
   }
 
   componentDidUpdate(prevProps:SpinnerProps) {
@@ -54,34 +58,63 @@ export class Spinner extends React.Component<SpinnerProps> {
      rotating: true
    })
 
-   function getVal(curr: number) {
+   // min/max seconds to spin
+   let min = 4
+   let max = 6
+   let secs = Math.max(min, (Math.random() * max))
 
-     let y = curr * curr
-     return (curr + 5) % 360;
+   let totalRotation = (secs * 500);
+   let initialRotation = this.state.rotate;
+   let ticks = secs * 100;
+   let currTick = 0;
+
+   function getVal(initial: number, x: number, totalRotation: number, spinType:number = 0) {
+     const c4 = (2 * Math.PI) / 3
+     let spinTypes = [
+       (x:number) => x + 5,
+       (x:number) => Math.sin((x * Math.PI) / 2),
+       (x:number) => 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2)
+     ]
+
+     let c1 = 1.70158
+     let c3 = 1 + c1;
+     let progress = spinTypes[spinType](x);
+     return (initial + (progress * totalRotation)) % 360;
    }
+
    function tick() {
-     let val = getVal(self.state.rotate)
+     let val = getVal(initialRotation, currTick/ticks, totalRotation,1);
      self.setState({
        rotate: val
      })
+     currTick+=1;
+     if(currTick >= ticks) {
+       endSpin();
+     }
    }
 
-   // min/max seconds to spin
-   let min = 1
-   let max = 3
+   let spinTimer = setInterval(tick, 10)
 
-   let secs = ((Math.random() * max) + min)
-
-   let spinTimer = setInterval(tick, .01)
+   //make sound if spinning
+   this.spinSound.currentTime = 5 - secs;
+   this.spinMusic.currentTime = 0;
+   if(this.state.participants.filter(x => !x.marked).length > 0){
+     this.spinSound.play();
+     this.spinMusic.play()
+   }
 
    function endSpin() {
      clearInterval(spinTimer);
+     self.spinSound.pause();
+     self.spinSound.load();
+     self.spinMusic.pause();
+     self.spinMusic.load();
      self.setState({
        rotating: false,
        wasSpun: true
      })
    }
-   setTimeout(() => endSpin(), secs*1000)
+   //setTimeout(() => endSpin(), ticks)
   }
 
   getselectedParticipant() {
@@ -98,6 +131,9 @@ export class Spinner extends React.Component<SpinnerProps> {
      selectedIndex += participants.length
    }
 
+   // if(participants[selectedIndex] == undefined){
+   //   alert(selectedIndex)
+   // }
    return participants[selectedIndex];
   }
 
@@ -145,7 +181,7 @@ export class Spinner extends React.Component<SpinnerProps> {
             {!state.wasSpun && !state.rotating
                ? (<span style={this.styles.goldText}>SPIN TO START</span>)
                : (<div style={this.styles.selectedContainer}>
-                    <span style={this.styles.goldText}>LANDED ON: </span>{ this.getselectedParticipant().name}
+                    <span style={this.styles.goldText}>LANDED ON: </span>{ this.getselectedParticipant() ? this.getselectedParticipant().name : "-"}
                   </div>)
             }
           </div>
