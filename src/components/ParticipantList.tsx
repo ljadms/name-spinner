@@ -48,12 +48,12 @@ export class ParticipantList extends React.Component<ParticipantListProps> {
     return(
       <div style={styles.nameContainer} key={index}>
 
-        <div onClick={() => toggle(participant)} style={{...styles.name, ...styles.clickable}}>
-          {participant.marked
-            ? <FaCheck style={{...styles.icon, ...styles.clickable}} color={COLORS.blue} />
-            :  <FaCheck style={{...styles.icon, ...styles.clickable}} color={COLORS.lightGray} /> }
-        {participant.name}
-        </div>
+            {participant.marked
+              ? <FaCheck style={{...styles.icon, ...styles.clickable}} color={COLORS.blue} onClick={() => toggle(participant)} />
+              :  <FaCheck style={{...styles.icon, ...styles.clickable}} color={COLORS.lightGray} onClick={() => toggle(participant)} />
+            }
+
+          <div onClick={() => toggle(participant)} style={{...styles.name, ...styles.clickable}}>{participant.name}</div>
         <FaTrash onClick={() => removeParticipant(participant)} style={{...styles.icon, ...styles.clickable}} color={COLORS.lightGray} />
       </div>
     )
@@ -89,15 +89,19 @@ const styles: IStyleSheet = {
     justifyContent: 'space-between'
   },
   name: {
-    alignSelf: 'center',
     fontSize: 24,
-    color: 'white'
+    color: 'white',
+    flexGrow: 2
   },
   icon: {
-    alignSelf: 'flex-end',
     width: 20,
     padding: 4,
-    fontSize: 24
+    fontSize: 24,
+    flexShrink: 0,
+    alignSelf: 'center'
+  },
+  iconContainer: {
+    width: 20,
   },
   clickable: {
     cursor: 'pointer',
