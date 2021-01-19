@@ -3,13 +3,12 @@ import { IStyleSheet } from '../../App';
 import { COLORS } from '../../common_style/colors';
 
 export interface PopupProps {
-  content: string | JSX.Element,
   isOpen: boolean,
-  toggle: () => void
+  toggle: () => void,
+  children: JSX.Element
 }
 
 interface PopupState {
-  content: string | JSX.Element,
   isOpen: boolean
 }
 
@@ -20,16 +19,14 @@ export class Popup extends React.Component<PopupProps> {
     super(props);
 
     this.state = {
-      content: props.content,
+      //content: props.content,
       isOpen: props.isOpen
     }
   }
 
   componentDidUpdate(prevProps:PopupProps) {
     if (prevProps != this.props) {
-      console.log('popup props changed | open:'+this.props.isOpen)
       this.setState({
-        content: this.props.content,
         isOpen: this.props.isOpen
       })
     }
@@ -46,7 +43,7 @@ export class Popup extends React.Component<PopupProps> {
         <div style={this.styles.container}>
           <div style={this.styles.shade} onClick={() => this.props.toggle()}></div>
           <div style={this.styles.contentContainer}>
-            {this.props.content}
+            {this.props.children}
           </div>
         </div>
       )

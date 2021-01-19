@@ -7,4 +7,5 @@ export const COLORS = {
   gold:  '#d4a659',
   gray: '#191919',
   lightGray: 'rgb(59,59,59)',
+  white: '#f5f5f5'
 }

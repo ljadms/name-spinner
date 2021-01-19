@@ -1,20 +1,28 @@
 import React, { ChangeEvent } from 'react';
 import {ParticipantList, Participant } from './components/ParticipantList';
-import {Spinner} from './components/Spinner';
+import {Spinner, SpinnerSettings} from './components/Spinner';
 import { AddParticipant } from './components/AddParticipant';
 import { COLORS } from './common_style/colors';
-import { FaExclamation, FaExclamationCircle, FaQuestionCircle } from 'react-icons/fa';
+import { FaCog, FaExclamation, FaQuestionCircle } from 'react-icons/fa';
 import { Popup } from './components/common/Popup';
+import { HelpPopup, SettingsPopup, } from './components/PopupContent';
 
 
 interface AppProps {
   participants: Participant[]
 }
 
+interface AppSettings {
+  useSound: boolean,
+  useMusic: boolean
+}
+
 interface AppState {
   participants: Participant[],
   newParticipantName: string,
-  popupOpen: boolean
+  helpPopupOpen: boolean,
+  settingsPopupOpen: boolean,
+  settings: AppSettings
 }
 
 export interface IStyleSheet {
@@ -28,10 +36,16 @@ export default class App extends React.Component {
     super(props);
     let savedParts = localStorage.getItem('participants')
     let participants = savedParts == null ? [] : JSON.parse(savedParts);
+    let settings = {
+      useSound: true,
+      useMusic: true
+    }
     this.state = {
       participants: participants,
       newParticipantName: "",
-      popupOpen: false
+      helpPopupOpen: false,
+      settingsPopupOpen: false,
+      settings: settings
     }
 
     this.addParticipant = this.addParticipant.bind(this)
@@ -41,47 +55,29 @@ export default class App extends React.Component {
 
 
   render() {
-    let participants = this.state.participants
+    let participants = this.state.participants;
+    let spinnerSettings : SpinnerSettings = {
+      useSound: this.state.settings.useSound,
+      useMusic: this.state.settings.useMusic
+    };
 
-    let helpContent = (
-      <div style={{color:'white'}}>
-        <h1 style={{color: COLORS.gold, marginTop:0}}> <FaQuestionCircle/> HOW TO USE</h1>
-        <div style={{display:'flex', justifyContent:'space-evenly', alignItems:'baseline'}}>
-          <div style={{width:200}}>
-            <img src={process.env.PUBLIC_URL+'/help1.png'} style={{width:200}}/>
-            Add items to your spinner using the text input
-          </div>
-          <div style={{width:200}}>
-            <img src={process.env.PUBLIC_URL+'/help2.png'} style={{width:200}}/>
-            Hit SPIN! to start the spinner
-          </div>
-          <div style={{width:200}}>
-            <img src={process.env.PUBLIC_URL+'/help3.png'} style={{width:200}}/>
-            After an item has been landed on, it is automiatically removed from the wheel
-          </div>
-        </div>
-        <p/>
-        <ul>
-          <li>To hide or unhide a specific item from the wheel, click the item in the list</li>
-          <li>Clicking the trash icon will remove that item from the list</li>
-        </ul>
-        <FaExclamation style={{color:COLORS.gold}}/>Your list of items is saved to the browser, you won't have to re-enter the items if you close or refresh the page!
-      </div>
-    )
+    let settingsPopup = (
+    <SettingsPopup
+    useSound={this.state.settings.useSound} useSoundOnChange={this.toggleSetting.bind(this,"useSound")}
+    useMusic={this.state.settings.useMusic} useMusicOnChange={this.toggleSetting.bind(this,"useMusic")}
+     />
+  )
+
     return (
       <div style={styles.container}>
-      <Popup content={helpContent} isOpen={this.state.popupOpen} toggle={this.togglePopup.bind(this)} />
+      <Popup isOpen={this.state.helpPopupOpen} toggle={this.togglePopup.bind(this, "help")}>{<HelpPopup />}</Popup>
+      <Popup isOpen={this.state.settingsPopupOpen} toggle={this.togglePopup.bind(this, "settings")}>{settingsPopup}</Popup>
       <div style={{...styles.floating, ...styles.popupIcon, ...styles.helpIcon}} title="Help">
-       <FaQuestionCircle onClick={this.togglePopup.bind(this)}/>
+       <FaQuestionCircle onClick={this.togglePopup.bind(this, "help")}/>
        </div>
-       {
-         /**
-         TODO: what's new popup
-        <div style={{...styles.floating, ...styles.popupIcon, ...styles.newsIcon}} title="What's New">
-          <FaExclamationCircle onClick={this.togglePopup.bind(this)}/>
+        <div style={{...styles.floating, ...styles.popupIcon, ...styles.newsIcon}} title="Settings">
+          <FaCog onClick={this.togglePopup.bind(this, "settings" )}/>
         </div>
-        **/
-      }
       <div style={styles.participantContainter}>
         <ParticipantList participants={participants} removeParticipant={this.removeParticipant} toggleParticipantMarked={this.toggleParticipantMarked}/>
         <div style={styles.inputs}>
@@ -89,7 +85,7 @@ export default class App extends React.Component {
           <AddParticipant disabled={!this.canAddName()} addParticipant={this.addParticipant}/>
         </div>
       </div>
-        <Spinner participants = {this.unMarked()} toggleMarked={this.toggleParticipantMarked}/>
+        <Spinner participants = {this.unMarked()} toggleMarked={this.toggleParticipantMarked} settings={spinnerSettings}/>
       </div>
     );
   }
@@ -165,8 +161,30 @@ export default class App extends React.Component {
     localStorage.setItem('participants', JSON.stringify(participants))
   }
 
-  togglePopup() {
-    this.setState({popupOpen: !this.state.popupOpen})
+  togglePopup(popup: "settings" | "help") {
+
+    switch(popup) {
+      case "help" :
+        this.setState({
+          helpPopupOpen: !this.state.helpPopupOpen,
+        });
+        break;
+      case "settings" :
+      this.setState({
+        settingsPopupOpen: !this.state.settingsPopupOpen,
+      });
+      break;
+    }
+
+  }
+
+  toggleSetting(settingName: "useSound"|"useMusic") {
+    let settings = this.state.settings;
+    settings[settingName] = !this.state.settings[settingName];
+
+    this.setState({
+      settings: settings
+    })
   }
 }
 
@@ -178,6 +196,8 @@ const styles: IStyleSheet = {
     flex: 1,
     backgroundColor: COLORS.gray,
     width: '100%',
+    minWidth: 1200,
+    minHeight: 875, //diagnal length of box around spinner
     height: '100%',
     flexDirection: "row",
     alignItems: 'center'
@@ -223,12 +243,11 @@ const styles: IStyleSheet = {
     cursor: 'pointer'
   },
   helpIcon: {
-    right: 10,
+    right: 45,
     top: 10,
   },
   newsIcon: {
-    right: 45,
-    top: 10,
-    color: COLORS.gold
+    right: 10,
+    top: 10
   }
 };

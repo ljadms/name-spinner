@@ -7,7 +7,13 @@ import { FaArrowRight, FaStar } from 'react-icons/fa';
 
 export interface SpinnerProps {
   participants: Participant[],
-  toggleMarked: (p: Participant) => void
+  toggleMarked: (p: Participant) => void,
+  settings?: SpinnerSettings
+}
+
+export interface SpinnerSettings {
+  useSound: boolean,
+  useMusic: boolean
 }
 
 interface SpinnerState {
@@ -15,7 +21,13 @@ interface SpinnerState {
   participants: Participant[],
   rotating: boolean,
   wasSpun: boolean,
-  toggleMarked: (p: Participant) => void
+  toggleMarked: (p: Participant) => void,
+  settings: SpinnerSettings
+}
+
+const DEFAULT_SETTINGS = {
+  useSound: true,
+  useMusic: true
 }
 
 export class Spinner extends React.Component<SpinnerProps> {
@@ -25,24 +37,29 @@ export class Spinner extends React.Component<SpinnerProps> {
 
   constructor(props: SpinnerProps) {
        super(props);
+
+       let settings = props.settings != null ? props.settings : DEFAULT_SETTINGS
+
        this.state = {
          rotate: 0,
          participants: props.participants,
          rotating: false,
          wasSpun: false,
-         toggleMarked: props.toggleMarked
+         toggleMarked: props.toggleMarked,
+         settings: settings
        }
 
        this.spin = this.spin.bind(this);
-       this.spinSound = new Audio(require("./content/spin.mp3"));
-       this.spinMusic = new Audio(require("./content/spinMusic.mp3"));
+       this.spinSound = new Audio(require("./assets/spin.mp3"));
+       this.spinMusic = new Audio(require("./assets/spinMusic.mp3"));
   }
 
   componentDidUpdate(prevProps:SpinnerProps) {
   let currProps: SpinnerProps = this.props as SpinnerProps
    if(prevProps !=currProps) {
      this.setState({
-       participants: currProps.participants
+       participants: currProps.participants,
+       settings: currProps.settings
      })
    }
   }
@@ -99,8 +116,8 @@ export class Spinner extends React.Component<SpinnerProps> {
    this.spinSound.currentTime = 5 - secs;
    this.spinMusic.currentTime = 0;
    if(this.state.participants.filter(x => !x.marked).length > 0){
-     this.spinSound.play();
-     this.spinMusic.play()
+     if (this.state.settings.useSound) { this.spinSound.play() }
+     if (this.state.settings.useMusic) { this.spinMusic.play() }
    }
 
    function endSpin() {
@@ -247,6 +264,7 @@ export class Spinner extends React.Component<SpinnerProps> {
       transformOrigin: '50% 0%',
       height: '100%',
       width: '100%',
+      overflow: 'hidden'
     },
     name: {
       color: 'white',
