@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Participant } from './ParticipantList';
 import { COLORS } from '../common_style/colors';
 
 export interface AddParticipantProps {
@@ -20,7 +19,7 @@ export class AddParticipant extends React.Component<AddParticipantProps> {
   }
 
   componentDidUpdate(prevProps: AddParticipantProps) {
-    if(prevProps != this.props) {
+    if(prevProps !== this.props) {
       this.setState({
         disabled: this.props.disabled
       })

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FaCheck, FaCheckSquare, FaSquare } from 'react-icons/fa';
+import { FaCheckSquare, FaSquare } from 'react-icons/fa';
 import { IStyleSheet } from '../../App';
 import { COLORS } from '../../common_style/colors';
 
@@ -32,7 +32,7 @@ export default class Toggle extends React.Component<ToggleProps> {
   }
 
   componentDidUpdate(prevProps: ToggleProps) {
-    if(this.props != prevProps) {
+    if(this.props !== prevProps) {
       this.setState({checked: this.props.checked})
     }
   }

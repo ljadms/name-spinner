@@ -25,7 +25,7 @@ export class Popup extends React.Component<PopupProps> {
   }
 
   componentDidUpdate(prevProps:PopupProps) {
-    if (prevProps != this.props) {
+    if (prevProps !== this.props) {
       this.setState({
         isOpen: this.props.isOpen
       })

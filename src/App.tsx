@@ -3,7 +3,7 @@ import {ParticipantList, Participant } from './components/ParticipantList';
 import {Spinner, SpinnerSettings} from './components/Spinner';
 import { AddParticipant } from './components/AddParticipant';
 import { COLORS } from './common_style/colors';
-import { FaCog, FaExclamation, FaQuestionCircle } from 'react-icons/fa';
+import { FaCog, FaQuestionCircle } from 'react-icons/fa';
 import { Popup } from './components/common/Popup';
 import { HelpPopup, SettingsPopup, } from './components/PopupContent';
 
@@ -98,9 +98,9 @@ export default class App extends React.Component {
     let participants = this.state.participants;
     let enteredName = this.state.newParticipantName;
 
-    let exists = (participants.find((p:Participant) => p.name == enteredName) != null)
+    let exists = (participants.find((p:Participant) => p.name === enteredName) != null)
 
-    return !(exists || (enteredName == "" || enteredName == null))
+    return !(exists || (enteredName === "" || enteredName == null))
   }
 
   enterPressed(event: React.KeyboardEvent<HTMLElement>, onEnter: () => void) {
@@ -128,7 +128,7 @@ export default class App extends React.Component {
 
   removeParticipant(participant: Participant) {
     let participants = this.state.participants
-    let updatedParticipants = participants.filter((p: Participant) => p.name != participant.name);
+    let updatedParticipants = participants.filter((p: Participant) => p.name !== participant.name);
     this.setState({
       participants: updatedParticipants
     })
@@ -138,7 +138,7 @@ export default class App extends React.Component {
 
   toggleParticipantMarked(participant: Participant) {
     let participants = this.state.participants;
-    let p = participants.find((p:Participant) => p && (p.name == participant.name) );
+    let p = participants.find((p:Participant) => p && (p.name === participant.name) );
     if (p != null) {
       p.marked = !p.marked;
       this.setState({
@@ -156,9 +156,10 @@ export default class App extends React.Component {
   }
 
   saveParticipantsToLocalStorage(participants: Participant[]) {
-    participants.map(p => p.marked = false);
+    let saveParticipants: Participant[] = JSON.parse(JSON.stringify(participants)); // clone particiapants so we don't mutate current list
+    saveParticipants.map(p => p.marked = false);
 
-    localStorage.setItem('participants', JSON.stringify(participants))
+    localStorage.setItem('participants', JSON.stringify(saveParticipants))
   }
 
   togglePopup(popup: "settings" | "help") {

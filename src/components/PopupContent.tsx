@@ -10,15 +10,15 @@ export const HelpPopup = () => (
     <h1 style={{color: COLORS.gold, marginTop:0}}> <FaQuestionCircle style={{color: COLORS.blue, marginRight: 6}}/>HOW TO USE</h1>
     <div style={{display:'flex', justifyContent:'space-evenly', alignItems:'baseline'}}>
       <div style={{width:200}}>
-        <img src={require('./assets/help1.png')} style={{width:200}}/>
+        <img src={require('./assets/help1.png')} alt=" Add name input" style={{width:200}}/>
         Add items to your spinner using the text input
       </div>
       <div style={{width:200}}>
-        <img src={require('./assets/help2.png')} style={{width:200}}/>
+        <img src={require('./assets/help2.png')} alt="Spin button" style={{width:200}}/>
         Hit SPIN! to start the spinner
       </div>
       <div style={{width:200}}>
-        <img src={require('./assets/help3.png')} style={{width:200}}/>
+        <img src={require('./assets/help3.png')} alt="Checkmark next to a name" style={{width:200}}/>
         After an item has been landed on, it is automiatically removed from the wheel
       </div>
     </div>
@@ -61,7 +61,7 @@ export class SettingsPopup extends React.Component<ToggleProps> {
   }
 
   componentDidUpdate(prevProps: ToggleProps) {
-    if (prevProps != this.props) {
+    if (prevProps !== this.props) {
       this.setState({
         useSound: this.props.useSound,
         useMusic: this.props.useMusic

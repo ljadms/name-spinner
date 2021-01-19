@@ -35,7 +35,7 @@ export class ParticipantList extends React.Component<ParticipantListProps> {
 
 
    static getDerivedStateFromProps(nextProps: ParticipantListProps, prevState: ParticipantsListState) {
-     if (nextProps.participants != prevState.participants) {
+     if (nextProps.participants !== prevState.participants) {
        return {
          participants: nextProps.participants
        }
@@ -61,7 +61,7 @@ export class ParticipantList extends React.Component<ParticipantListProps> {
 
   render() {
     let participants: Participant[] = this.state.participants
-    if (participants.length == 0) {
+    if (participants.length === 0) {
       return(
         <div>
           <div style={styles.noParts}> Enter some names! </div>

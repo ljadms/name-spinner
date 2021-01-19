@@ -56,7 +56,7 @@ export class Spinner extends React.Component<SpinnerProps> {
 
   componentDidUpdate(prevProps:SpinnerProps) {
   let currProps: SpinnerProps = this.props as SpinnerProps
-   if(prevProps !=currProps) {
+   if(prevProps !== currProps) {
      this.setState({
        participants: currProps.participants,
        settings: currProps.settings
@@ -86,7 +86,7 @@ export class Spinner extends React.Component<SpinnerProps> {
    let currTick = 0;
 
    function getVal(initial: number, x: number, totalRotation: number, spinType:number = 0) {
-     const c4 = (2 * Math.PI) / 3
+
      let spinTypes = [
        (x:number) => x + 5,
        (x:number) => Math.sin((x * Math.PI) / 2),
@@ -177,7 +177,7 @@ export class Spinner extends React.Component<SpinnerProps> {
   render() {
   let state:SpinnerState = this.state
 
-  if (state.participants.length == 0) {
+  if (state.participants.length === 0) {
     return (
       <div style={{...this.styles.container, ...this.styles.doneContainer}}>
         {state.wasSpun &&
@@ -339,7 +339,7 @@ export class Spinner extends React.Component<SpinnerProps> {
     // get color for wedge so there's no repeats
     let participantLength: number = this.state.participants.length;
     let colorIndex: number = index % this.WEDGE_COLORS.length;
-    (index == (participantLength - 1) && index % this.WEDGE_COLORS.length == 0) && colorIndex++;
+    (index === (participantLength - 1) && index % this.WEDGE_COLORS.length === 0) && colorIndex++;
 
     return this.WEDGE_COLORS[colorIndex]
   }
