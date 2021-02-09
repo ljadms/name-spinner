@@ -34,6 +34,7 @@ export class Spinner extends React.Component<SpinnerProps> {
   state: SpinnerState;
   spinSound: HTMLAudioElement;
   spinMusic: HTMLAudioElement;
+  doneSound: HTMLAudioElement;
 
   constructor(props: SpinnerProps) {
        super(props);
@@ -52,6 +53,7 @@ export class Spinner extends React.Component<SpinnerProps> {
        this.spin = this.spin.bind(this);
        this.spinSound = new Audio(require("./assets/spin.mp3"));
        this.spinMusic = new Audio(require("./assets/spinMusic.mp3"));
+       this.doneSound = new Audio(require("./assets/fanfare.wav"));
   }
 
   componentDidUpdate(prevProps:SpinnerProps) {
@@ -69,6 +71,10 @@ export class Spinner extends React.Component<SpinnerProps> {
    //if we spun already, mark the last person
    if(self.state.wasSpun) {
      self.state.toggleMarked(self.getselectedParticipant());
+     if(self.props.settings && self.props.settings.useSound && self.props.participants.filter((p:Participant) => !p.marked).length == 0) {
+       self.doneSound.currentTime = 0;
+       self.doneSound.play()
+     }
    }
 
    self.setState({
@@ -76,8 +82,8 @@ export class Spinner extends React.Component<SpinnerProps> {
    })
 
    // min/max seconds to spin
-   let min = 4
-   let max = 6
+   let min = 3
+   let max = 6.5
    let secs = Math.max(min, (Math.random() * max))
 
    let totalRotation = (secs * 500);
