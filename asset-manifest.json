@@ -1,17 +1,18 @@
 {
   "files": {
     "main.css": "/name-spinner/static/css/main.5ecd60fb.chunk.css",
-    "main.js": "/name-spinner/static/js/main.3a909c69.chunk.js",
-    "main.js.map": "/name-spinner/static/js/main.3a909c69.chunk.js.map",
+    "main.js": "/name-spinner/static/js/main.8057b9d5.chunk.js",
+    "main.js.map": "/name-spinner/static/js/main.8057b9d5.chunk.js.map",
     "runtime-main.js": "/name-spinner/static/js/runtime-main.acb5fd8d.js",
     "runtime-main.js.map": "/name-spinner/static/js/runtime-main.acb5fd8d.js.map",
     "static/js/2.56a256d8.chunk.js": "/name-spinner/static/js/2.56a256d8.chunk.js",
     "static/js/2.56a256d8.chunk.js.map": "/name-spinner/static/js/2.56a256d8.chunk.js.map",
     "index.html": "/name-spinner/index.html",
-    "precache-manifest.caf76457a31a8a1e0dda76745c5f76ad.js": "/name-spinner/precache-manifest.caf76457a31a8a1e0dda76745c5f76ad.js",
+    "precache-manifest.c7b8fedd9919dae0be56b16750fa3d2c.js": "/name-spinner/precache-manifest.c7b8fedd9919dae0be56b16750fa3d2c.js",
     "service-worker.js": "/name-spinner/service-worker.js",
     "static/css/main.5ecd60fb.chunk.css.map": "/name-spinner/static/css/main.5ecd60fb.chunk.css.map",
     "static/js/2.56a256d8.chunk.js.LICENSE.txt": "/name-spinner/static/js/2.56a256d8.chunk.js.LICENSE.txt",
+    "static/media/fanfare.wav": "/name-spinner/static/media/fanfare.e41fee9e.wav",
     "static/media/spin.mp3": "/name-spinner/static/media/spin.2a738e54.mp3",
     "static/media/spinMusic.mp3": "/name-spinner/static/media/spinMusic.725bf97c.mp3"
   },
@@ -19,6 +20,6 @@
     "static/js/runtime-main.acb5fd8d.js",
     "static/js/2.56a256d8.chunk.js",
     "static/css/main.5ecd60fb.chunk.css",
-    "static/js/main.3a909c69.chunk.js"
+    "static/js/main.8057b9d5.chunk.js"
   ]
 }

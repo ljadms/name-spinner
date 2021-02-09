@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "19fc670399159c36681eb7adf0ec2c8e",
+    "revision": "998c1ae1e0a3d19ede18819260b6a7a3",
     "url": "/name-spinner/index.html"
   },
   {
-    "revision": "1d543c9fd753e43874ff",
+    "revision": "a9ed9d82fb73f5085693",
     "url": "/name-spinner/static/css/main.5ecd60fb.chunk.css"
   },
   {
@@ -16,12 +16,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/name-spinner/static/js/2.56a256d8.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "1d543c9fd753e43874ff",
-    "url": "/name-spinner/static/js/main.3a909c69.chunk.js"
+    "revision": "a9ed9d82fb73f5085693",
+    "url": "/name-spinner/static/js/main.8057b9d5.chunk.js"
   },
   {
     "revision": "06b90fa5af5d2e8e1dbb",
     "url": "/name-spinner/static/js/runtime-main.acb5fd8d.js"
+  },
+  {
+    "revision": "e41fee9e62a7272a9aa0fb51ac6965de",
+    "url": "/name-spinner/static/media/fanfare.e41fee9e.wav"
   },
   {
     "revision": "2a738e548c90844b5a47bc7acacdbb6f",
