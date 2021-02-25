@@ -1,3 +1,5 @@
+See this app in action at https://ljadms.github.io/name-spinner/
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
