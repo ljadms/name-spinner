@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FaCog, FaExclamation, FaQuestionCircle } from 'react-icons/fa';
+import { FaExclamation } from 'react-icons/fa';
 import { COLORS } from '../common_style/colors';
 import Toggle from './common/Toggle';
 
@@ -7,27 +7,29 @@ import Toggle from './common/Toggle';
 
 export const HelpPopup = () => (
   <div style={{color:'white'}}>
-    <h1 style={{color: COLORS.gold, marginTop:0}}> <FaQuestionCircle style={{color: COLORS.blue, marginRight: 6}}/>HOW TO USE</h1>
-    <div style={{display:'flex', justifyContent:'space-evenly', alignItems:'baseline'}}>
-      <div style={{width:200}}>
-        <img src={require('./assets/help1.png')} alt=" Add name input" style={{width:200}}/>
+    <h1 style={{color: COLORS.gold, marginTop:0}}> HOW TO USE</h1>
+    <div style={{display:'flex', justifyContent:'space-evenly', alignItems:'baseline', padding: 10}}>
+      <div style={{width:250}}>
+        <img src={require('./assets/help1.png')} alt=" Add name input" style={{width:250}}/>
         Add items to your spinner using the text input
       </div>
-      <div style={{width:200}}>
-        <img src={require('./assets/help2.png')} alt="Spin button" style={{width:200}}/>
-        Hit SPIN! to start the spinner
+      <div style={{width:250}}>
+        <img src={require('./assets/help2.png')} alt="Spin button" style={{width:250}}/>
+        Hit SPIN! to start the spinning wheel.
       </div>
-      <div style={{width:200}}>
-        <img src={require('./assets/help3.png')} alt="Checkmark next to a name" style={{width:200}}/>
+      <div style={{width:250}}>
+        <img src={require('./assets/help3.png')} alt="Checkmark next to a name" style={{width:250}}/>
         After an item has been landed on, it is automiatically removed from the wheel
       </div>
     </div>
     <p/>
     <ul>
       <li>To hide or unhide a specific item from the wheel, click the item in the list</li>
+      <p/>
       <li>Clicking the trash icon will remove that item from the list</li>
     </ul>
-    <FaExclamation style={{color:COLORS.gold}}/>Your list of items is saved to the browser, you won't have to re-enter the items if you close or refresh the page!
+    <p/>
+    <FaExclamation style={{color:COLORS.gold}}/>Your list of items is saved to the browser.
   </div>
 )
 
@@ -72,7 +74,7 @@ export class SettingsPopup extends React.Component<ToggleProps> {
    render() {
      return (
       <div style={{minWidth: 300}}>
-        <h1 style={{color: COLORS.gold, marginTop:0}}> <FaCog style={{color: COLORS.blue, marginRight: 6}} />
+        <h1 style={{color: COLORS.gold, marginTop:0}}>
           SETTINGS
         </h1>
         <div style={{color: COLORS.white, fontSize: 24, fontWeight: 500}}>

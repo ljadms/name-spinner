@@ -71,7 +71,7 @@ export class Spinner extends React.Component<SpinnerProps> {
    //if we spun already, mark the last person
    if(self.state.wasSpun) {
      self.state.toggleMarked(self.getselectedParticipant());
-     if(self.props.settings && self.props.settings.useSound && self.props.participants.filter((p:Participant) => !p.marked).length == 0) {
+     if(self.props.settings && self.props.settings.useSound && self.props.participants.filter((p:Participant) => !p.marked).length === 0) {
        self.doneSound.currentTime = 0;
        self.doneSound.play()
      }

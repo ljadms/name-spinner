@@ -1,15 +1,13 @@
-import React, { ChangeEvent } from 'react';
-import {ParticipantList, Participant } from './components/ParticipantList';
-import {Spinner, SpinnerSettings} from './components/Spinner';
-import { AddParticipant } from './components/AddParticipant';
+import React from 'react';
 import { COLORS } from './common_style/colors';
-import { FaCog, FaQuestionCircle } from 'react-icons/fa';
+import { FaBars, FaTimes } from 'react-icons/fa';
 import { Popup } from './components/common/Popup';
 import { HelpPopup, SettingsPopup, } from './components/PopupContent';
+import Body from './components/Body';
 
 
 interface AppProps {
-  participants: Participant[]
+
 }
 
 interface AppSettings {
@@ -18,11 +16,10 @@ interface AppSettings {
 }
 
 interface AppState {
-  participants: Participant[],
-  newParticipantName: string,
   helpPopupOpen: boolean,
   settingsPopupOpen: boolean,
-  settings: AppSettings
+  settings: AppSettings,
+  menuOpen: Boolean
 }
 
 export interface IStyleSheet {
@@ -34,133 +31,54 @@ export default class App extends React.Component {
 
   constructor(props: AppProps) {
     super(props);
-    let savedParts = localStorage.getItem('participants')
-    let participants = savedParts == null ? [] : JSON.parse(savedParts);
+
     let settings = {
       useSound: true,
       useMusic: true
     }
     this.state = {
-      participants: participants,
-      newParticipantName: "",
       helpPopupOpen: false,
       settingsPopupOpen: false,
-      settings: settings
+      settings: settings,
+      menuOpen: false
     }
 
-    this.addParticipant = this.addParticipant.bind(this)
-    this.removeParticipant = this.removeParticipant.bind(this)
-    this.toggleParticipantMarked = this.toggleParticipantMarked.bind(this)
   }
 
 
   render() {
-    let participants = this.state.participants;
-    let spinnerSettings : SpinnerSettings = {
-      useSound: this.state.settings.useSound,
-      useMusic: this.state.settings.useMusic
-    };
 
     let settingsPopup = (
-    <SettingsPopup
-    useSound={this.state.settings.useSound} useSoundOnChange={this.toggleSetting.bind(this,"useSound")}
-    useMusic={this.state.settings.useMusic} useMusicOnChange={this.toggleSetting.bind(this,"useMusic")}
-     />
-  )
+      <SettingsPopup
+      useSound={this.state.settings.useSound} useSoundOnChange={this.toggleSetting.bind(this,"useSound")}
+      useMusic={this.state.settings.useMusic} useMusicOnChange={this.toggleSetting.bind(this,"useMusic")}
+      />
+    );
 
     return (
-      <div style={styles.container}>
-      <Popup isOpen={this.state.helpPopupOpen} toggle={this.togglePopup.bind(this, "help")}>{<HelpPopup />}</Popup>
-      <Popup isOpen={this.state.settingsPopupOpen} toggle={this.togglePopup.bind(this, "settings")}>{settingsPopup}</Popup>
-      <div style={{...styles.floating, ...styles.popupIcon, ...styles.helpIcon}} title="Help">
-       <FaQuestionCircle onClick={this.togglePopup.bind(this, "help")}/>
-       </div>
-        <div style={{...styles.floating, ...styles.popupIcon, ...styles.newsIcon}} title="Settings">
-          <FaCog onClick={this.togglePopup.bind(this, "settings" )}/>
+      <div style={{...styles.container, ...styles.fullWidth}}>
+        <Popup isOpen={this.state.helpPopupOpen} toggle={this.togglePopup.bind(this, "help")}>{<HelpPopup />}</Popup>
+        <Popup isOpen={this.state.settingsPopupOpen} toggle={this.togglePopup.bind(this, "settings")}>{settingsPopup}</Popup>
+        <div style={styles.menu} hidden={!this.state.menuOpen}>
+          <div style={styles.menuContainer}>
+            <span onClick={this.togglePopup.bind(this,"help")} style={styles.popupButton}> ABOUT </span> <br/>
+            <span onClick={this.togglePopup.bind(this,"help")} style={styles.popupButton}> HELP </span> <br/>
+            <span onClick={this.togglePopup.bind(this,"settings")} style={styles.popupButton}>SETTINGS </span>
+          </div>
         </div>
-      <div style={styles.participantContainter}>
-        <ParticipantList participants={participants} removeParticipant={this.removeParticipant} toggleParticipantMarked={this.toggleParticipantMarked}/>
-        <div style={styles.inputs}>
-          <input type="text" style={styles.nameInput} placeholder={"Enter a name"} value={this.state.newParticipantName} onChange={(ev) => this.updateParticipantName(ev)} onKeyPress={(e) => this.enterPressed(e,this.addParticipant)} />
-          <AddParticipant disabled={!this.canAddName()} addParticipant={this.addParticipant}/>
+        <div style={{...styles.fullWidth, ...styles.bar, color:'white'}}>
+          Spin The Wheel
+          {this.state.menuOpen ? <FaTimes onClick={this.toggleMenu.bind(this)} style={styles.menuButton}/> : <FaBars onClick={this.toggleMenu.bind(this)} style={styles.menuButton}/>}
+        </div>
+        <Body />
+        <div style={{...styles.fullWidth, ...styles.bar, borderTop: 'solid 1px gray'}}>
+
         </div>
       </div>
-        <Spinner participants = {this.unMarked()} toggleMarked={this.toggleParticipantMarked} settings={spinnerSettings}/>
-      </div>
+
     );
   }
 
-  unMarked() {
-    return this.state.participants.filter((participant: Participant) => !participant.marked)
-  }
-
-  canAddName() {
-    let participants = this.state.participants;
-    let enteredName = this.state.newParticipantName;
-
-    let exists = (participants.find((p:Participant) => p.name === enteredName) != null)
-
-    return !(exists || (enteredName === "" || enteredName == null))
-  }
-
-  enterPressed(event: React.KeyboardEvent<HTMLElement>, onEnter: () => void) {
-    if(event.key === 'Enter') {
-      onEnter();
-    }
-  }
-
-  addParticipant() {
-    if(this.canAddName()) {
-      let participants = this.state.participants;
-      let participantName = this.state.newParticipantName;
-      participants.push({
-        name: participantName,
-        marked: false
-      })
-      this.setState({
-        newParticipantName: "",
-        participants: participants
-      })
-
-      this.saveParticipantsToLocalStorage(participants);
-    }
-  }
-
-  removeParticipant(participant: Participant) {
-    let participants = this.state.participants
-    let updatedParticipants = participants.filter((p: Participant) => p.name !== participant.name);
-    this.setState({
-      participants: updatedParticipants
-    })
-
-    this.saveParticipantsToLocalStorage(updatedParticipants);
-  }
-
-  toggleParticipantMarked(participant: Participant) {
-    let participants = this.state.participants;
-    let p = participants.find((p:Participant) => p && (p.name === participant.name) );
-    if (p != null) {
-      p.marked = !p.marked;
-      this.setState({
-        participants: participants
-      })
-    }
-  }
-
-  updateParticipantName(nameInput : ChangeEvent<HTMLInputElement>) {
-    let name = nameInput.target.value;
-
-    this.setState({
-      newParticipantName: name
-    })
-  }
-
-  saveParticipantsToLocalStorage(participants: Participant[]) {
-    let saveParticipants: Participant[] = JSON.parse(JSON.stringify(participants)); // clone particiapants so we don't mutate current list
-    saveParticipants.map(p => p.marked = false);
-
-    localStorage.setItem('participants', JSON.stringify(saveParticipants))
-  }
 
   togglePopup(popup: "settings" | "help") {
 
@@ -187,6 +105,15 @@ export default class App extends React.Component {
       settings: settings
     })
   }
+
+  toggleMenu() {
+    let menuOpen = !this.state.menuOpen;
+
+    this.setState({
+      menuOpen : menuOpen
+    })
+  }
+
 }
 
 
@@ -194,61 +121,53 @@ const styles: IStyleSheet = {
   container: {
     display: 'flex',
     position: 'absolute',
-    flex: 1,
-    backgroundColor: COLORS.gray,
-    width: '100%',
-    minWidth: 1200,
-    minHeight: 875, //diagnal length of box around spinner
-    height: '100%',
-    flexDirection: "row",
-    alignItems: 'center'
-  },
-  participantContainter: {
-    display: 'flex',
-    flex: 1,
-    flexDirection: 'column',
+    flexDirection: "column",
     alignItems: 'center',
-    justifyContent: 'center'
+    height: "100%"
   },
-  participants: {
-    flexGrow: 3
+  fullWidth: {
+    width: "100%"
   },
-  spinner: {
-    flex: 3
+  bar: {
+    backgroundColor: COLORS.gray,
+    height:70,
+    minHeight: 70,
+    maxHeight: 70
   },
-  spacer: {
-    flex: 1
+  menuButton: {
+    float: "right",
+    color: COLORS.gold,
+    cursor: 'pointer',
+    padding: 16,
+    fontSize: 24
   },
-  inputs: {
-    display: 'flex',
-    flex: 1,
-    flexDirection: 'row',
-    padding: 6
+  menu: {
+    position: "absolute",
+    top: 40,
+    right: 40,
+    backgroundColor: COLORS.gray,
+    border: "1px solid black",
+    boxShadow: "0px 1px 3px black",
+    zIndex:999
   },
-  nameInput: {
-    padding: 8,
-    borderColor: 'gray',
-    borderStyle: 'solid',
-    borderWidth: 2,
-    height: 30,
-    color: 'white',
-    backgroundColor: 'transparent',
-    borderRadius: 5
+  menuContainer: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-evenly",
+    padding: 10
   },
-  floating: {
-    position: 'absolute'
+  popupButton: {
+    fontSize: 18,
+    color: "white",
+    cursor: "pointer",
+    fontWeight: 'bold',
+    width: "100%",
   },
-  popupIcon: {
-    color: COLORS.lightBlue,
-    fontSize: 30,
-    cursor: 'pointer'
-  },
-  helpIcon: {
-    right: 45,
-    top: 10,
-  },
-  newsIcon: {
-    right: 10,
-    top: 10
+  ad: {
+    height: 90,
+    width: 970,
+    border: "solid red 1px",
+    margin: 'auto',
+    marginTop: -20
   }
 };
