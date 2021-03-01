@@ -1,9 +1,9 @@
 {
-  "name": "spinner",
-  "displayName": "spinner",
+  "name": "WhosNextWheel",
+  "displayName": "Who's Next Wheel",
   "expo": {
-    "name": "spinner",
-    "slug": "spinner",
+    "name": "WhosNextWheel",
+    "slug": "WhosNextWheel",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"

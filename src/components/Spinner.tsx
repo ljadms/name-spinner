@@ -204,7 +204,7 @@ export class Spinner extends React.Component<SpinnerProps> {
             {!state.wasSpun && !state.rotating
                ? (<span style={this.styles.goldText}>SPIN TO START</span>)
                : (<div style={this.styles.selectedContainer}>
-                    <span style={this.styles.goldText}>LANDED ON: </span>{ this.getselectedParticipant() ? this.getselectedParticipant().name : "-"}
+                    <span style={this.styles.goldText}>NEXT: </span>{ this.getselectedParticipant() ? this.getselectedParticipant().name : "-"}
                   </div>)
             }
           </div>
