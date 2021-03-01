@@ -95,7 +95,7 @@ export const AboutPopup = () =>  (
   <div style={{color:'white'}}>
     <h1 style={{color: COLORS.gold, marginTop:0}}>ABOUT</h1>
     <div style={{padding: 10}}>
-      The Name Spinner was created by Lincoln Adams
+      Who's Next Wheel was created by Lincoln Adams
       <p/>
       Credits:<p/>
        "Trumpet Brass Fanfare.wav" by ohforheavensake on <a href="https://www.freesound.org">Freesound.org</a> is licensed under CC BY 4.0<p/>
