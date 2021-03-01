@@ -68,7 +68,7 @@ export const HelpPopup = () => (
     <div style={{display:'flex', justifyContent:'space-evenly', alignItems:'baseline', padding: 10}}>
       <div style={{width:250}}>
         <img src={require('./assets/help1.png')} alt=" Add name input" style={{width:250}}/>
-        Add items to your spinner using the text input
+        Add items to your wheel using the text input
       </div>
       <div style={{width:250}}>
         <img src={require('./assets/help2.png')} alt="Spin button" style={{width:250}}/>
@@ -76,7 +76,7 @@ export const HelpPopup = () => (
       </div>
       <div style={{width:250}}>
         <img src={require('./assets/help3.png')} alt="Checkmark next to a name" style={{width:250}}/>
-        After an item has been landed on, it is automiatically removed from the wheel
+        After a participant has been landed on, it is automiatically removed from the wheel
       </div>
     </div>
     <p/>
